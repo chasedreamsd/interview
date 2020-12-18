@@ -40,3 +40,40 @@ void rainbowSort2(vector<int>& colors, int color_st, int color_ed, int idx_st, i
     rainbowSort(colors, color_st, color_mid, idx_st, idx_lo-1);
     rainbowSort(colors, color_mid+1, color_ed, idx_lo, idx_ed);
 }
+
+
+
+
+//215. Kth Largest Element in an Array
+// quick select
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        for(int left = 0, right = nums.size()-1; left <= right; ){
+            int idx = partition(nums, left, right, left);
+            if(idx == k-1){
+                return nums[idx];
+            }
+            else if(idx < k-1){
+                left = idx + 1;
+            }
+            else{
+                right = idx - 1;
+            }
+        }
+        return -1;
+    }
+    
+    int partition(vector<int>& nums, int left, int right, int p_idx){
+        int pivot = nums[p_idx];
+        swap(nums[p_idx], nums[right]);
+        int store_idx = left;
+        for(int i = left; i < right; ++i){
+            if(nums[i] >= pivot){
+                swap(nums[i], nums[store_idx++]);
+            }
+        }
+        swap(nums[right], nums[store_idx]);
+        return store_idx;
+    }
+};
