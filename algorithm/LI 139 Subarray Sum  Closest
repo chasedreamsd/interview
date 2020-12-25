@@ -1,0 +1,32 @@
+class Solution {
+public:
+    /*
+     * @param nums: A list of integers
+     * @return: A list of integers includes the index of the first number and the index of the last number
+     */
+    vector<int> subarraySumClosest(vector<int> &nums) {
+        // write your code here
+        map<int,int> presum_idx;
+        presum_idx[0] = -1;
+        long long cur_sum = 0, min_diff = (long long)INT_MAX + 1, k = 0;
+        vector<int> ans;
+        for(int i = 0; i < nums.size(); ++i){
+            cur_sum += nums[i];
+            int target = cur_sum - k;
+            
+            auto it = presum_idx.lower_bound(target);
+            it = it == presum_idx.end() ? prev(presum_idx.end()) : it;
+            if(it != presum_idx.begin() && abs(prev(it)->first - target) < abs(it->first - target)){
+                --it;
+            }
+            
+            if(abs(cur_sum - it->first) < min_diff){
+                min_diff = abs(cur_sum - it->first);
+                ans = {it->second+1, i};
+            }
+            presum_idx[cur_sum] = i;
+        }
+        
+        return ans;
+    }
+};
