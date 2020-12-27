@@ -49,6 +49,26 @@ public:
     
 };
 
+// LI44 minimux subarray
+// 给定一个整数数组，找到一个具有最小和的连续子数组。返回其最小和。
+// 输入：[1, -1, -2, 1], 输出：-3
+class Solution {
+public:
+    /*
+     * @param nums: a list of integers
+     * @return: A integer indicate the sum of minimum subarray
+     */
+    int minSubArray(vector<int> &nums) {
+        if(nums.empty()) { return 0; }
+        int prev_sum = 0, ans = nums.front();
+        for(auto& n : nums){
+            prev_sum = min(0, prev_sum) + n;
+            ans = min(ans, prev_sum);
+        }
+        return ans;
+    }
+};
+
 // LI 43 Maximum Subarray III
 // 输入: List = [-1,4,-2,3,-2,3], k = 2
 // 输出: 8, 说明: 4 + (3 + -2 + 3) = 8
@@ -116,3 +136,47 @@ int maxSubarray4(const vector<int>& nums, int k) {
 	return ans;
 }
 
+// LI45 Maximum subarray difference.
+// 给定一个整数数组，找出两个不重叠的子数组A和B，使两个子数组和的差的绝对值|SUM(A) - SUM(B)|最大。返回这个最大的差值。
+// 输入:[1, 2, -3, 1] 输出:6, 解释: 子数组是 [1,2] 和[-3].所以答案是 6.
+class Solution {
+public:
+    int maxDiffSubArrays(vector<int> &nums) {
+        int n = nums.size();
+        
+        vector<int> left_min(n), left_max(n);
+        int pre_sum_min = 0, pre_sum_max = 0, cur_min = INT_MAX, cur_max = INT_MIN;
+        for(int i = 0; i < n; ++i){
+            pre_sum_min = min(0, pre_sum_min) + nums[i];
+            cur_min = min(cur_min, pre_sum_min);
+            left_min[i] = cur_min;
+            
+            pre_sum_max = max(0, pre_sum_max) + nums[i];
+            cur_max = max(cur_max, pre_sum_max);
+            left_max[i] = cur_max;
+        }
+        
+        vector<int> right_max(n), right_min(n);
+        pre_sum_min = 0, pre_sum_max = 0, cur_min = INT_MAX, cur_max = INT_MIN;
+        for(int i = n-1; i >= 0; --i){
+            pre_sum_min = min(0, pre_sum_min) + nums[i];
+            cur_min = min(cur_min, pre_sum_min);
+            right_min[i] = cur_min;
+            
+            pre_sum_max = max(0, pre_sum_max) + nums[i];
+            cur_max = max(cur_max, pre_sum_max);
+            right_max[i] = cur_max;
+        }
+        
+        int ans = INT_MIN;
+        for(int i = 0; i < n-1; ++i){
+            ans = max(ans, abs(right_max[i+1] - left_min[i]));
+            ans = max(ans, abs(left_max[i] - right_min[i+1]));
+        }
+        return ans;
+    }
+};
+
+// LE 309 Best Time to Buy and Sell Stock with Cooldown
+
+// LE 714 Best Time to Buy and Sell Stock with Transaction Fee
