@@ -1,8 +1,8 @@
 // https://blog.csdn.net/wzy_1988/article/details/12260343
 // backpack:
-// 1. 0/1, 92 I, 125 II, 563 V,
-// 2. complete, 440 III, 562 IV
-// 3. 
+// 1. 0/1(select or not select), 92 I, 125 II, 563 V,
+// 2. complete(unbounded amount), 440 III, 562 IV
+// 3. multiple(limited amount by K), 798 VII, 799 VIII.
 
 
 
