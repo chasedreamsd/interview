@@ -88,6 +88,7 @@ int backPackII(int m, vector<int> &A, vector<int> &V) {
 // Input: A = [1, 2, 3], V = [1, 2, 3], m = 5, Output: 5
 // Explanation: Strategy is not unique. For example, put five item 0 (A[0] = 1, V[0] = 1) into backpack.
 
+// dp[i][j] = max(dp[i-1][j], dp[i-1][j-kA[i]]+kV[i]) where j-kA[i] >= 0 
 // dp[i][j] = max(dp[i-1][j], dp[i][j-A[i]]+V[i])
 // i index of A, j size, dp[i][j] denotes the max value by using 0 .. i item in A, and size is lte j
 // dp[i][j]: either not use last one dp[i-1][j], 
