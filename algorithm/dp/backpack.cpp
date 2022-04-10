@@ -6,11 +6,33 @@
 
 
 
-// LT 92 Backpack I
-// Given n items with size n integer m denotes the size of a backpack. each item can pick once. How full you can fill this backpack?
-// example: array = [3,4,8,5] backpack size = 10  
-// output 9
-// dp[i][j] = dp[i-1][j] || dp[i-1][j-A[i]]
+/*LT 92 Backpack I
+Given n items with size n integer m denotes the size of a backpack. each item can pick once. How full you can fill this backpack?
+example: array = [3,4,8,5] backpack size = 10  
+output 9
+state: dp[i][j] denote whether items 1 - i can form sum j. 
+transfer function: dp[i][j] = dp[i-1][j] || dp[i-1][j-A[i]], 
+dp[i-1][j] not pick item i, dp[i-1][j-A[i]]: pick itme i
+init:
+dp[i][0] = true, i = [0, n], n: size of A
+solution:
+max j with dp[i][j] == ture.
+EG:
+     0	1  2  3  4  5  6  7  8  9  10
+0    T	F  F  F	 F  F  F  F  F  F  F
+1 3  T  F  F  T  F  F  F  F  F  F  F
+2 4  T  F  F  T  T  F  F  T  F  F  F
+3 8  T  F  F  T  T  F  F  T  T  F  F
+4 5  T  F  F  T  T  T  F  T  T  T  T
+
+EG:
+     0	1  2  3  4  5  6  7  8  9  10
+0    T	F  F  F	 F  F  F  F  F  F  F
+1 3  T  F  F  T  F  F  T  F  F  T  F
+2 4  T  F  F  T  T  F  T  T  T  T  T
+3 8  T  F  F  T  T  F  T  T  T  T  T
+4 5  T  F  F  T  T  T  T  T  T  T  T
+*/
 
 int backPack(int m, vector<int> &A) {
     // write your code here
@@ -30,6 +52,11 @@ int backPack(int m, vector<int> &A) {
     return ans;
 }
 
+/*
+dp[i][j] = depended on dp[i-1][j] and dp[i-1][j-A[i]], 
+This can be optimized to 1-d.
+in order to not overwrite samller columns, j need to go from end to start.
+*/
 int backPack(int m, vector<int> &A) {
   int n = A.size();
   bool dp[m+1] ={false};
@@ -43,6 +70,16 @@ int backPack(int m, vector<int> &A) {
   }
   return ans;
 }
+
+/*
+another thought for this problem
+state: dp[i][j] donote the max sum form item 1 - i, where sum <= j
+function: dp[i][j] = max(dp[i-1][j], dp[i-1][j-A[i-1]] + A[i-1])
+init: dp[i][j] = 0, i = [0, n], n: size of A, j = [0, m]
+solution: dp[n][m]
+*/
+
+
 
 // LT 125 Backpack II
 // There are n items and a backpack with size m. Given array A representing the size of each item and array V representing the value of each item.
